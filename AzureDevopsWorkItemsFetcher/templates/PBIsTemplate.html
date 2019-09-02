@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="https://cdn.vsassets.io/v/M156_20190827.23/_cssbundles/Default/vss-bundle-asynccss-vwUdYPpDRh1I9y5H0CI_GGpUaPp3M-qAoV0ZGyLlFkcg=" rel="stylesheet" />
+    <link href="https://cdn.vsassets.io/v/M156_20190827.23/_cssbundles/Default/vss-bundle-commoncss-v3v5kwzaxcjzLYlk9N4vkke4Pc3INzBEdIZTjZbqPk2I=" rel="stylesheet" />
+    <link href="https://cdn.vsassets.io/v/M156_20190827.23/_ext/ms.vss-features/ui-hub-content/ms.vss-features.ui-hub-content.min.css" rel="stylesheet" />
+
+    <link href="https://cdn.vsassets.io/v/M156_20190827.23/App_Themes/Default/fabric.css" rel="stylesheet" />
+
+    <link href="https://cdn.vsassets.io/v/M156_20190827.23/_cssbundles/Default/vss-bundle-viewcss-vgJYSlkTgFp36eBtWMk72cle0uJDuy0qaK3gMHEG8ot4=" rel="stylesheet" />
+    <link href="https://cdn.vsassets.io/v/M156_20190827.23/_cssbundles/Default/vss-bundle-commoncss-v3v5kwzaxcjzLYlk9N4vkke4Pc3INzBEdIZTjZbqPk2I=" rel="stylesheet" />
+    <link href="https://cdn.vsassets.io/v/M156_20190827.23/_ext/ms.vss-web/core-content/ms.vss-web.core-content.min.css" rel="stylesheet" />
+
+    <style>
+        body,
+        .work-item-type-icon:before {
+            font-size: 1.6em;
+        }
+
+        .tbTileContent {
+            width: 48vw;
+            border: 1px solid #ececec;
+            display: inline-block;
+            margin-bottom: .1em;
+            padding: .5em .5em .25em 1em;
+            vertical-align: top;
+        }
+
+        .id-title-container .title {
+            display: inline;
+            display: block;
+            margin-top: .5em;
+        }
+
+        .title {
+            min-height: 8em;
+        }
+
+        .clickable-title-link {
+            text-decoration: none;
+        }
+
+        .field-container.additional-field.lastAdditionalField {
+            margin: .5em 0 0;
+            float: right;
+        }
+
+        .field-container.additional-field .field-inner-element,
+        .field-container.additional-field .field-label {
+            line-height: unset;
+        }
+
+        .field-container.additional-field .field-label {
+            margin-top: 2px;
+        }
+
+        .workitem-state-value {
+            width: 100%;
+            font-weight: 900;
+        }
+
+        .ellipsis {
+            overflow: unset;
+            text-overflow: unset;
+        }
+
+        .workitem-state-value.onTileEditTextDiv {
+            margin-right: .5em;
+        }
+
+        .tbTileContent {
+            background: #fff;
+            background: linear-gradient(90deg, rgba(232,112,36,1) 3%, rgba(255,255,255,1) 3%);
+        }
+    </style>
+</head>
+<body>
+    <div class="">
+        {{#each workitems}}
+        <div class="tbTileContent">
+            <div class="id-title-container">
+                <span class="work-item-type-icon-host">
+                    <div class="ms-TooltipHost host_74a2b74b work-item-type-icon-wrapper">
+                        <i aria-label="Product Backlog Item" class="work-item-type-icon bowtie-icon bowtie-symbol-list" style="color: rgb(232, 112, 37);"></i>
+                    </div>
+                </span>
+                <div class="id" field="System.Id">{{id}}</div>
+                <div class="title ellipsis" field="System.Title">
+                    <span class="clickable-title" role="button">{{fields.Title}}</span>
+                </div>
+            </div>
+            <div class="container witExtra">
+                <div class="field-container onTileEditDiv non-combo-behavior ellipsis  effort witRemainingWork" field=".WORK_ROLLUP">
+                </div>
+            </div><div class="field-container onTileEditDiv non-combo-behavior ellipsis  additional-field lastAdditionalField" field="System.State">
+                <div class="field-inner-element ellipsis onTileEditTextDiv">
+                    <div class="workitem-size-color-cell onTileEditTextDiv">
+                        <span class="workitem-size-value onTileEditTextDiv">{{fields.TShirtSize}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="tags field-container" field="System.Tags">
+                <div id="vss_97" class="tfs-tags">
+                    <div class="tags-items-container" role="toolbar">
+                        <ul>
+                            {{#each fields.TagsList}}
+                            <li class="tag-item" index="0">
+                                <span class="tag-container" dir="ltr">
+                                    <span class="tag-box" dir="ltr">{{this}}</span>
+                                </span>
+                            </li>
+                            {{/each}}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card-context-menu">
+                <div class="bowtie-icon bowtie-ellipsis"></div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</body>
+</html>
