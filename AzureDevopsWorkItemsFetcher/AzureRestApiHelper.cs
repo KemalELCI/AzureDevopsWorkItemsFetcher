@@ -38,7 +38,7 @@ namespace AzureWorkItemsFetcher
                     response.EnsureSuccessStatusCode();
                     string responseBody = await response.Content.ReadAsStringAsync();
 
-                   return JsonConvert.DeserializeObject<WorkItemsDetailResult>(responseBody);
+                    return JsonConvert.DeserializeObject<WorkItemsDetailResult>(responseBody);
                 }
             }
         }
@@ -48,11 +48,20 @@ namespace AzureWorkItemsFetcher
             var query = "Select [System.Id], [System.Title], [System.State] From WorkItems Where [System.WorkItemType] = 'Product Backlog Item' "
                 + "AND [State] <> 'Closed' AND [State] <> 'Removed' AND [Iteration Path] = @CurrentIteration order by [Microsoft.VSTS.Common.Priority] asc, [System.CreatedDate] desc";
 
-            var result = await MakeWITQuery(query);
+            var result = await MakeWITQuery<WITResult>(query);
             return result.workItems;
         }
 
-        public async Task<WITResult> MakeWITQuery(string query)
+        public async Task<WorkItemRelation[]> GetChildWorkItemsFromParentWorkItemId(string Id)
+        {
+            var query = "select * from WorkItemLinks where ([System.Links.LinkType] = 'System.LinkTypes.Hierarchy-Forward') "
+                + $" and (Source.[System.Id] = {Id}) order by [System.Id] mode (ReturnMatchingChildren)";
+
+            var result = await MakeWITQuery<WITRelationsResult>(query);
+            return result.workItemRelations;
+        }
+
+        public async Task<T> MakeWITQuery<T>(string query)
         {
             var queryObj = new
             {
@@ -75,7 +84,7 @@ namespace AzureWorkItemsFetcher
                 {
                     response.EnsureSuccessStatusCode();
                     string responseBody = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<WITResult>(responseBody);
+                    return JsonConvert.DeserializeObject<T>(responseBody);
                 }
 
             }
@@ -108,7 +117,11 @@ namespace AzureWorkItemsFetcher
     public class WITResult
     {
         public WorkItem[] workItems { get; set; }
+    }
 
+    public class WITRelationsResult
+    {
+        public WorkItemRelation[] workItemRelations { get; set; }
     }
 
     public class WorkItem
@@ -117,6 +130,13 @@ namespace AzureWorkItemsFetcher
         public string url { get; set; }
 
         public WorkItemDetail fields { get; set; }
+    }
+
+    public class WorkItemRelation
+    {
+        public string rel { get; set; }
+        public WorkItem source { get; set; }
+        public WorkItem target { get; set; }
     }
 
     public class WorkItemDetail
